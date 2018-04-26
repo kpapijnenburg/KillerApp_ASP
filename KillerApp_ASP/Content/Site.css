@@ -1,0 +1,68 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+
+.up {
+    width: 36px;
+    height: 36px;
+}
+
+.down {
+    width: 36px;
+    height: 36px;
+}
+
+.fundCard {
+    width: 200px;
+}
+
+.indexImage {
+    width: 100px;
+    height: 100px;
+}
+
+.homeImage {
+    height: 150px;
+    width: 150px;
+}
+
+.detailsImage {
+    width: 168px;
+    height: 168px;
+}
+
+.columnBg {
+    background: whitesmoke;
+}
+
+.bodyBg {
+    border: 1px solid lightgray;
+}
+
+.nav-text {
+    font-size: 15px;
+    color: white;
+    padding-right: 10px;
+}
+
+.nav-text:hover {
+    color: gray;
+}

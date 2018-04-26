@@ -1,0 +1,117 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@using KillerAppClassLibrary.Classes
+@model KillerApp_ASP.ViewModels.TrackDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+    <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-4">
+        <br />
+        <img class="detailsImage" src="@Model.TrackViewModel.CoverUrl" alt="" />
+    </div>
+    <div class="col-lg-8">
+        <br />
+        <h2>@Model.TrackViewModel.TrackName</h2>
+        <p class="lead">@Model.TrackViewModel.ArtistName</p>
+        <p><strong>@Model.TrackViewModel.Label</strong></p>
+        <p>Price: @Model.TrackViewModel.Price,- </p>
+        <br />
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 ">
+        @if (Model.User != null)
+        {
+            if (Model.HasVoted)
+            {
+                <p>You already voted on this track. Click <a href='@Url.Action("Delete", "Vote", new {TrackId = Model.TrackViewModel.Id, UserId = Model.User.Id})'>here</a> to reset your vote.</p>
+            }
+            else
+            {
+                <a href='@Url.Action("Cast","Vote", new {TrackId = Model.TrackViewModel.Id,UserId = Model.User.Id, value = 1})'><img class="up" src="https://image.flaticon.com/icons/svg/126/126473.svg" alt="Alternate Text" /></a>
+                <a href='@Url.Action("Cast","Vote", new {TrackId = Model.TrackViewModel.Id,UserId = Model.User.Id, value = -1})'><img class="down" src="https://image.flaticon.com/icons/svg/126/126098.svg" alt="Alternate Text" /></a>
+            }
+        }
+        @if (Model.Vote == null)
+        {
+            <h2>0</h2>
+        }
+        else
+        {
+            if (Model.Vote.Score >= 0)
+            {
+                <div class="text-success">
+                    <h2>
+                        <strong> +@Model.Vote.Score</strong>
+                    </h2>
+                </div>
+            }
+            else
+            {
+                <div class="text-danger">
+                    <h2>
+                        <strong> @Model.Vote.Score</strong>
+                    </h2>
+                </div>
+            }
+        }
+    </div>
+    <div class="col-md-8">
+        @Html.ActionLink("Buy", "Add", "ShoppingCart", new { id = Model.TrackViewModel.Id }, new { @class = "btn btn-primary float-right" })
+    </div>
+</div>
+<hr />
+<h2>Comments</h2>
+
+
+@if (ViewBag.Items.Count > 0)
+{
+    foreach (Comment comment in ViewBag.Items)
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <h3>@comment.User.Username</h3>
+                <p>commented on @comment.TimeStamp.ToShortDateString()</p>
+            </div>
+            <div class="col-md-8">
+                <textarea readonly="readonly" class="form-control readonlyTextArea">@comment.Content</textarea>
+            </div>
+        </div>
+        <hr />
+    }
+    @Html.PagedListPager((IPagedList)ViewBag.Items, page => Url.Action("Details", new { page }))
+}
+else
+{
+    <p>Be the first to comment.</p>
+}
+
+<p class="lead">Add new comment</p>
+<hr />
+@using (Html.BeginForm("Create", "Comment", new { userId = Model.User.Id, trackId = Model.TrackViewModel.Id }, FormMethod.Post, null))
+{
+    <div class="form-group col-lg-12">
+        @*@Html.TextArea("content", null, new { @class = "form-control" })*@
+        <textarea maxlength="255" name="content" class="form-control"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit" , value="Submit">Submit</button>
+}
+
+<script>
+    $(function () {
+        $("textarea[maxlength]").bind('input propertychange', function () {
+            var maxLength = $(this).attr('maxlength');
+            if ($(this).val().length > maxLength) {
+                $(this).val($(this).val().substring(0, maxLength));
+            }
+        })
+    });
+</script>

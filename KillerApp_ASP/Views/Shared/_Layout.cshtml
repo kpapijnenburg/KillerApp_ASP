@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - KillerApp</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/scripts.js"></script>
+</head>
+<body onload="Refresh();" style="padding: 0">
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <div id="admin">
+                <a class="navbar-brand" href="/Home/Index">Musicr</a>
+            </div>
+            <div id="loggedIn">
+                @Html.ActionLink("Checkout", "CheckoutView", "ShoppingCart", null, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+
+    </nav>
+    <!-- Page Content -->
+    <div class="container columnBg">
+        <!--1020x160 foto header -->
+        <div class="columnBg">
+            <img class="card-img-top img-fluid" src="http://spotlight.content.hardstyle.com/spotlight_banners/1238_978x278.jpg" alt="">
+            <hr />
+        </div>
+        <div class="row">
+            <!--Linker content kolom row 1 -->
+            <div class="col-lg-3 columnBg">
+                <h3 class="text-center">Latest releases</h3>
+                <hr />
+                <ul class="list-group-flush" id="Latest">
+
+                </ul>
+            </div>
+            <!-- middel content kolom row 1 -->
+            <div class="container bodyBg body-content col-lg-6">
+                @RenderBody()
+            </div>
+            <!-- rechter content kolom row 1-->
+            <div class="col-lg-3 columnBg">
+                <h3 class="text-center">Most Popular</h3>
+                <hr />
+                <ul class="list-group-flush" id="Most">
+
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <!--linker content kolom row 2 -->
+            <div class="col-lg-3 columnBg">
+                <h3 class="text-center">Recommended</h3>
+                <hr/>
+                <div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/22'">
+                    <img class="homeImage" src="https://img.discogs.com/1ziYXqFjAa0ObgSsmUczeyyTD7s=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-10114855-1491862906-1409.jpeg.jpg" alt=""/>
+
+                    <h3>
+                        <strong>Brutal 6.0</strong>
+                    </h3>
+                    <p class="lead">Radical Redemption</p>
+                </div>
+            </div>
+            <div class="col-lg-6 columnBg"></div>
+            <div class="col-lg-3 columnBg">
+                <h3 class="text-center">Deal</h3>
+                <hr />
+                <div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/15'">
+                    <img class="homeImage" src="https://img.discogs.com/csgR9VLQr2GJYzGi2UrAHDSYlFE=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-11109711-1510012509-9390.jpeg.jpg" alt="" />
+                    <h3>
+                        <strong>The Aftershock</strong>
+                    </h3>
+                    <p class="lead">Phuture Noize</p>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Musicr</p>
+        </footer>
+    </div>
+</body>
+@Scripts.Render("~/bundles/lib")
+@RenderSection("scripts", required: false)
+</html>
+
+

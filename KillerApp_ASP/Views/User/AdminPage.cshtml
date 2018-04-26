@@ -1,0 +1,42 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="/Content/PagedList.css" rel="stylesheet" type="text/css"/>
+}
+
+<h2>Adminpage</h2>
+<hr/>
+@Html.ActionLink("New","New","Track", null, new {@class = "btn btn-primary"})
+
+<div class="container">
+    <br/>
+    <table id="adminPageTracks" class="table table-hover">
+        <thead>
+        <tr>
+            <th>Track Name</th>
+            <th>Artist name</th>
+            <th>Label</th>
+            <th>Price</th>
+            <th>Edit</th>
+            <th>Remove</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var track in ViewBag.Items)
+            {
+                <tr>
+                    <td>@track.TrackName</td>
+                    <td>@track.ArtistName</td>
+                    <td>@track.Label</td>
+                    <td>@track.Price,-</td>
+                    <td>@Html.ActionLink("Update", "EditForm", "Track", new {id = track.Id}, null)</td>
+                    <td>@Html.ActionLink("Remove", "Remove", "Track", new {id = track.Id}, null)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.PagedListPager((IPagedList)ViewBag.Items, page => Url.Action("AdminPage", new {page}))
+</div>

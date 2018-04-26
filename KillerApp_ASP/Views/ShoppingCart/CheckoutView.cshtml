@@ -1,0 +1,59 @@
+﻿@model KillerApp_ASP.ViewModels.ShoppingCartViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    double totalPrice = 0;
+    foreach (var track in Model.ShoppingCart)
+    {
+        totalPrice += track.Price;
+    }
+}
+@if (Model.ShoppingCart.Any())
+{
+    foreach (var track in Model.ShoppingCart)
+    {
+        <div class="row">
+            <div class="col-lg-4">
+                <br />
+                <img class="detailsImage" src="@track.CoverUrl" alt="" />
+            </div>
+            <div class="col-lg-8">
+                <br />
+                <p><strong>@track.TrackName</strong></p>
+                <p class="lead">@track.ArtistName</p>
+                <p>@track.Label</p>
+                <p>Price: @track.Price,- </p>
+                @Html.ActionLink("X", "Remove", "ShoppingCart", new { id = track.Id }, new {@class = "text-danger"})
+                <br />
+                <hr />
+            </div>
+        </div>
+    }
+
+    @Html.HiddenFor(m => m.UserViewModel.Id);
+
+    <small class="lead">Total price: €@totalPrice,- </small>
+    <br />
+    <br/>
+    if (Model.UserViewModel.Fund > totalPrice)
+     {
+         @Html.ActionLink("Continue", "Checkout", "ShoppingCart", new { id = Model.UserViewModel.Id }, new { @class = "btn btn-secondary" })
+     }
+    else
+    {
+    <p class="text-danger"><strong>Insufficient funds available please click <a href="/user/details/" @Model.UserViewModel.Id>here</a> to go to your accountpage.</strong></p>
+    }
+
+}
+else
+{
+    <p>There are currently no tracks in your shoppingcart.</p>
+}
+
+
+
+
+
+

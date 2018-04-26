@@ -1,0 +1,39 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="container">
+    @using (Html.BeginForm("index", "Home", FormMethod.Get))
+    {
+        <div class="row">
+            @Html.TextBox("search", null, new { @class = "form-control" })
+            <input class="btn btn-secondary" type="submit" name="submit" , value="search" />
+        </div>
+        <label>
+            <input type="radio" name="options" value="artist"> Artist name
+        </label>
+        <label>
+            <input type="radio" name="options" value="track"> Track name
+        </label>
+    }
+    <hr />
+    <div class="row">
+        @foreach (var track in ViewBag.Items)
+        {
+            <div class="col-md-4 text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/@track.Id'">
+                <img class ="indexImage" src="@track.CoverUrl" alt="" />
+                <p>
+                    <strong>@track.TrackName</strong>
+                </p>
+                <p>@track.ArtistName</p>
+                <hr />
+            </div>
+        }
+    </div>
+    @Html.PagedListPager((IPagedList)ViewBag.Items, page => Url.Action("Index", new { page }))
+</div>
