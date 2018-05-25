@@ -25,8 +25,8 @@ namespace KillerApp_ASP.ViewModels
         public string Label { get; set; }
 
         [Required]
-        [Range(1,10)]
-        public float Price { get; set; }
+        [Range(0, 10)]
+        public decimal Price { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -34,16 +34,19 @@ namespace KillerApp_ASP.ViewModels
         [Url]
         public string CoverUrl { get; set; }
 
-        public TrackViewModel(string artistName, string trackName, string label, float price, string coverUrl)
+        public bool Deal { get; set; }
+
+        public TrackViewModel(string artistName, string trackName, string label, decimal price, string coverUrl, bool deal)
         {
             ArtistName = artistName;
             TrackName = trackName;
             Label = label;
             Price = price;
             CoverUrl = coverUrl;
+            Deal = deal;
         }
 
-        public TrackViewModel(int id, string artistName, string trackName, string label, float price, string coverUrl)
+        public TrackViewModel(int id, string artistName, string trackName, string label, decimal price, string coverUrl, bool deal)
         {
             Id = id;
             ArtistName = artistName;
@@ -51,6 +54,7 @@ namespace KillerApp_ASP.ViewModels
             Label = label;
             Price = price;
             CoverUrl = coverUrl;
+            Deal = deal;
         }
 
         public TrackViewModel()

@@ -14,10 +14,10 @@ function IsUserAdmin() {
     if (cookie != null) {
         var id = cookie.substr(cookie.length - 1);
 
-        $.get("user/getUser/" + id,
+        $.get("/user/getUser/" + id,
             function (data) {
                 if (data.IsAdmin) {
-                    $("#admin").append('<a class="nav-text" href="user/adminpage"> Admin</a>');
+                    $("#admin").append('<a class="nav-text" href="/user/adminpage"> Admin</a>');
                 }
             });
     }
@@ -50,7 +50,17 @@ function GetMostDownloaded() {
     request.done(function (result) {
 
         for (var i = 0; i < result.length; i++) {
-            $("#Most").append(`<div style="cursor: pointer;" onclick="NavigateToDetails(${result[i].Id})"><p><strong>${i + 1}. ${result[i].TrackName}</strong> </br> ${result[i].ArtistName}<hr> </div>`);
+            $("#Most").append(`
+                    <div style="cursor: pointer;" onclick="NavigateToDetails(${result[i].Id})">
+                        <p>
+                            <strong>${i + 1}. ${result[i].TrackName}</strong>
+                            <br />
+                            ${result[i].ArtistName}
+                            <br />
+                            <a href='/shoppingcart/add/${result[i].Id}'><img class="rounded float-right shopping-cart-image" src="https://image.flaticon.com/icons/svg/70/70021.svg" alt="Alternate Text" /></a>
+                            <hr>
+                    </div>
+            `);
 
         }
     });
@@ -67,10 +77,19 @@ function GetLatestReleases() {
         dataType: "json"
     });
 
-    request.done(function(result) {
+    request.done(function (result) {
         for (var i = 0; i < result.length; i++) {
-            $("#Latest").append(`<div style="cursor: pointer;" onclick="NavigateToDetails(${result[i].Id})"><p><strong>${i + 1}. ${result[i].TrackName}</strong> </br> ${result[i].ArtistName}<hr> </div>`);
-        }
+            $("#Latest").append(`
+                    <div style="cursor: pointer;" onclick="NavigateToDetails(${result[i].Id})">
+                        <p>
+                            <strong>${i + 1}. ${result[i].TrackName}</strong>
+                            <br />
+                            ${result[i].ArtistName}
+                            <br />
+                            <a href='/shoppingcart/add/${result[i].Id}'><img class="rounded float-right shopping-cart-image" src="https://image.flaticon.com/icons/svg/70/70021.svg" alt="Alternate Text" /></a>
+                            <hr>
+                    </div>
+            `);        }
     });
 
     request.fail(function (jqHxr, textStatus) {
@@ -78,20 +97,59 @@ function GetLatestReleases() {
     });
 }
 
-function NavigateToDetails(id) {
-    location.href = "/track/details/" + id;
-}
-
-function HasVoted() {
+function GetDeals() {
     var request = $.ajax({
-        url: "/vote/hasvoted",
+        url: "/track/getdeals",
         type: "get",
         dataType: "json"
     });
 
-    request.done(function(result) {
-        console.log(result);
+    request.done(function (result) {
+        $("#deal").append('<h3 class="text-center">Deal</h3>')
+            .append("<hr />")
+            .append(
+            `<div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/${result.Id}'">
+                    <img class="homeImage" src="${result.CoverUrl}" alt="" />
+                    <h3>
+                        <strong>${result.TrackName}</strong>
+                    </h3>
+                    <p class="lead">${result.ArtistName}</p>
+                </div>`);
     });
+
+    request.fail(function (jqHxr, textStatus) {
+        console.log("request failed: " + textStatus);
+    });
+}
+
+function GetRecommended() {
+    var request = $.ajax({
+        url: "/track/GetRecommended",
+        type: "get",
+        dataType: "json"
+    });
+
+    request.done(function (result) {
+        $("#recommended").append('<h3 class="text-center">Recommended</h3>')
+            .append("<hr />")
+            .append(
+                `<div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/${result.Id}'">
+                    <img class="homeImage" src="${result.CoverUrl}" alt="" />
+                    <h3>
+                        <strong>${result.TrackName}</strong>
+                    </h3>
+                    <p class="lead">${result.ArtistName}</p>
+                </div>`);
+    });
+
+    request.fail(function (jqHxr, textStatus) {
+        console.log("request failed: " + textStatus);
+    });
+}
+
+
+function NavigateToDetails(id) {
+    location.href = "/track/details/" + id;
 }
 
 function Refresh() {
@@ -100,6 +158,18 @@ function Refresh() {
         IsUserAdmin();
         GetLatestReleases();
         GetMostDownloaded();
+        GetDeals();
+        GetRecommended();
     });
 }
 
+
+//<h3 class="text-center">Recommended</h3>
+//    <hr />
+//    <div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/22'">
+//    <img class="homeImage" src="https://img.discogs.com/1ziYXqFjAa0ObgSsmUczeyyTD7s=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-10114855-1491862906-1409.jpeg.jpg" alt="" />
+//    <h3>
+//    <strong>Brutal 6.0</strong>
+//    </h3>
+//    <p class="lead">Radical Redemption</p>
+//    </div>

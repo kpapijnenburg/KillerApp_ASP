@@ -450,7 +450,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Track\Index.cshtml" />
     <Content Include="Views\Track\Details.cshtml" />
     <Content Include="Views\User\LoginForm.cshtml" />
     <Content Include="Views\User\RegisterForm.cshtml" />
@@ -461,7 +460,6 @@
     <Content Include="Views\Track\EditForm.cshtml" />
     <Content Include="Views\Track\New.cshtml" />
     <Content Include="Views\ShoppingCart\OrderFinished.cshtml" />
-    <Content Include="Views\Track\SearchForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

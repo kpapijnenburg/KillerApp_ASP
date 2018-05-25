@@ -1,8 +1,11 @@
-﻿@model KillerApp_ASP.ViewModels.AccountPageViewModel
+﻿@using PagedList
+@using PagedList.Mvc
+@model KillerApp_ASP.ViewModels.AccountPageViewModel
 
 @{
     ViewBag.Title = "Account";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
 }
 
 <h2>Account page</h2>
@@ -29,7 +32,7 @@
 </div>
 <hr/>
 <h3>Purchase history</h3>
-@if (Model.Tracks.Any())
+@if (ViewBag.Items != null)
 {
     <div class="container">
         <table id="AccountPageTracks" class="table table-hover">
@@ -41,7 +44,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var orderTrack in Model.Tracks)
+            @foreach (var orderTrack in ViewBag.Items)
             {
                 <tr>
                     <td>@orderTrack.PurchaseDate.ToShortDateString()</td>
@@ -51,9 +54,9 @@
             }
             </tbody>
         </table>
+        @Html.PagedListPager((IPagedList)ViewBag.Items, page => Url.Action("Details", new { page }))
+
     </div>
-
-
 }
 else
 {

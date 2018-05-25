@@ -6,7 +6,6 @@
 @{
     ViewBag.Title = "Details";
     <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
-
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -20,7 +19,7 @@
         <h2>@Model.TrackViewModel.TrackName</h2>
         <p class="lead">@Model.TrackViewModel.ArtistName</p>
         <p><strong>@Model.TrackViewModel.Label</strong></p>
-        <p>Price: @Model.TrackViewModel.Price,- </p>
+        Price: €@Html.DisplayFor(m => m.TrackViewModel.Price)
         <br />
         <hr />
     </div>
@@ -76,16 +75,22 @@
 {
     foreach (Comment comment in ViewBag.Items)
     {
-        <div class="row">
+        <div class="row comment">
             <div class="col-md-4">
                 <h3>@comment.User.Username</h3>
                 <p>commented on @comment.TimeStamp.ToShortDateString()</p>
             </div>
             <div class="col-md-8">
-                <textarea readonly="readonly" class="form-control readonlyTextArea">@comment.Content</textarea>
+                <textarea style="font-size: 14px;" readonly="readonly" class="form-control">@comment.Content</textarea>
             </div>
+            @if (comment.User.Id == Model.User.Id)
+            {
+                <div>
+                    @Html.ActionLink("Delete", "Delete", "Comment", new { id = comment.Id, trackId = Model.TrackViewModel.Id }, null)
+                </div>
+            }
         </div>
-        <hr />
+        <br />
     }
     @Html.PagedListPager((IPagedList)ViewBag.Items, page => Url.Action("Details", new { page }))
 }
@@ -99,19 +104,9 @@ else
 @using (Html.BeginForm("Create", "Comment", new { userId = Model.User.Id, trackId = Model.TrackViewModel.Id }, FormMethod.Post, null))
 {
     <div class="form-group col-lg-12">
-        @*@Html.TextArea("content", null, new { @class = "form-control" })*@
         <textarea maxlength="255" name="content" class="form-control"></textarea>
     </div>
     <button class="btn btn-primary" type="submit" , value="Submit">Submit</button>
-}
 
-<script>
-    $(function () {
-        $("textarea[maxlength]").bind('input propertychange', function () {
-            var maxLength = $(this).attr('maxlength');
-            if ($(this).val().length > maxLength) {
-                $(this).val($(this).val().substring(0, maxLength));
-            }
-        })
-    });
-</script>
+}
+<br />

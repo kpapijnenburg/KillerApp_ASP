@@ -28,5 +28,12 @@ namespace KillerApp_ASP.Controllers
             return RedirectToAction("Details", "Track", new {id = trackid});
 
         }
+
+        public ActionResult Delete(int id, int trackId)
+        {
+            commentRepository.Delete(id);
+
+            return RedirectToAction("Details", "Track", new {id = trackId});
+        }
     }
 }

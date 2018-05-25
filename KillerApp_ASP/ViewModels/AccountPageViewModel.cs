@@ -11,21 +11,18 @@ namespace KillerApp_ASP.ViewModels
     {
         public int Id { get; set; }
 
-        [Range(0, 1000)]
-        public float Fund { get; set; }
-
-        public List<OrderTrack> Tracks { get; set; }
+        [Range(0, 10)]
+        public decimal Fund { get; set; }
         
         public AccountPageViewModel()
         {
             
         }
 
-        public AccountPageViewModel(int id, float fund, List<OrderTrack> tracks)
+        public AccountPageViewModel(int id, decimal fund)
         {
             Id = id;
             Fund = fund;
-            Tracks = tracks;
         }
     }
 }

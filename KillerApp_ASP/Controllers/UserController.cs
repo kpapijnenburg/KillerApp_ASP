@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using KillerAppClassLibrary.Classes;
-using KillerAppClassLibrary.Context.Interface;
 using KillerAppClassLibrary.Context.Sql;
 using KillerAppClassLibrary.Logic.Repositories;
-using KillerApp_ASP.Models;
 using KillerApp_ASP.ViewModels;
 using PagedList;
 using Controller = System.Web.Mvc.Controller;
@@ -31,8 +28,11 @@ namespace KillerApp_ASP.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult Register(UserViewModel model)
         {
+            RedirectToRouteResult result;
+
             var user = new User
                 (
                 model.Username,
@@ -43,16 +43,16 @@ namespace KillerApp_ASP.Controllers
             try
             {
                 userRepository.Create(user);
-
-                return RedirectToAction("index", "Home");
+                result = RedirectToAction("index", "Home");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                RedirectToAction("RegisterForm", "User");
+                result = RedirectToAction("RegisterForm", "User");
             }
 
-            return RedirectToAction("index", "Home");
+            result = RedirectToAction("index", "Home");
+            return result;
         }
 
         [HttpPost]
@@ -87,22 +87,29 @@ namespace KillerApp_ASP.Controllers
             return RedirectToAction("index", "Home");
         }
 
-        public ActionResult Details()
+        [HttpGet]
+        public ActionResult Details(int? page)
         {
             var cookie = Request.Cookies["userId"];
             if (cookie == null) return RedirectToAction("index", "Home");
             var user = userRepository.GetById(Convert.ToInt32(cookie.Values["userId"]));
 
+            var purchases = trackRepository.GetPurchases(user).ToList();
+
+            int pageNumber = page ?? 1;
+            var onePageOfPurchases = purchases.ToPagedList(pageNumber, 10);
+            ViewBag.Items = onePageOfPurchases;
+
             var model = new AccountPageViewModel
                 (
                     user.Id,
-                    user.Fund,
-                    trackRepository.GetPurchases(user).ToList()
+                    user.Fund
                 );
 
             return View(model);
         }
 
+        [HttpGet]
         public ActionResult AdminPage(int? page)
         {
             var cookie = Request.Cookies["userId"];
@@ -124,7 +131,7 @@ namespace KillerApp_ASP.Controllers
 
             var tracks = trackRepository.GetAll();
 
-            var pageNumber = page ?? 1;
+            int pageNumber = page ?? 1;
             var onePageOfTracks = tracks.ToPagedList(pageNumber, 8);
 
             ViewBag.Items = onePageOfTracks;

@@ -8,19 +8,18 @@ namespace KillerApp_ASP.ViewModels
 {
     public class ShoppingCartViewModel
     {
-        public UserViewModel UserViewModel { get; set; }
-        public List<Track> ShoppingCart { get; set; }
-
-        public ShoppingCartViewModel(UserViewModel userViewModel, List<Track> shoppingCart)
-        {
-            UserViewModel = userViewModel;
-            ShoppingCart = shoppingCart;
-        }
+        public User User { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public ShoppingCartViewModel()
         {
-
+            
         }
 
+        public ShoppingCartViewModel(User user, decimal totalPrice)
+        {
+            User = user;
+            TotalPrice = totalPrice;
+        }
     }
 }

@@ -19,7 +19,6 @@
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
-
 .up {
     width: 36px;
     height: 36px;
@@ -63,6 +62,23 @@ select,
     padding-right: 10px;
 }
 
-.nav-text:hover {
-    color: gray;
+    .nav-text:hover {
+        color: gray;
+    }
+
+.comment {
+    border-bottom: 2px solid lightgray;
+    border-top: 2px solid lightgray;
+    padding: 10px 10px 10px 10px;
+}
+
+.comment-content {
+    font-size: 12px;
+}
+
+.shopping-cart-image {
+    width: 24px;
+    height: 24px;
+    padding-right: 5px;
+    padding-bottom: 10px;
 }

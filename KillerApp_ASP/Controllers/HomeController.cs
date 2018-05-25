@@ -17,7 +17,8 @@ namespace KillerApp_ASP.Controllers
         {
             trackRepository = new TrackRepository(new TrackSqlContext());
         }
-
+        
+        [HttpGet]
         public ActionResult Index(int? page, string search, string options)
         {
             var tracks = trackRepository.GetAll();

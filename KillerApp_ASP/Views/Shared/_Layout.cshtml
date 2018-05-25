@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - KillerApp</title>
+    <title>@ViewBag.Title - Musicr</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script src="~/Scripts/scripts.js"></script>
@@ -32,9 +32,11 @@
             <div class="col-lg-3 columnBg">
                 <h3 class="text-center">Latest releases</h3>
                 <hr />
-                <ul class="list-group-flush" id="Latest">
-
-                </ul>
+                <ul class="list-group-flush" id="Latest"></ul>
+                <div align="center">
+                    @Html.ActionLink("Buy Latest Releases", "AddLatestReleases", "ShoppingCart", null, new { @class = "btn btn-primary center" })
+                </div>
+                <hr />
             </div>
             <!-- middel content kolom row 1 -->
             <div class="container bodyBg body-content col-lg-6">
@@ -45,35 +47,21 @@
                 <h3 class="text-center">Most Popular</h3>
                 <hr />
                 <ul class="list-group-flush" id="Most">
-
                 </ul>
+                <div align="center">
+                    @Html.ActionLink("Buy Most Popular", "AddMostDownloaded", "ShoppingCart", null, new { @class = "btn btn-primary center" })
+                </div>
+                <hr />
             </div>
         </div>
         <div class="row">
             <!--linker content kolom row 2 -->
-            <div class="col-lg-3 columnBg">
-                <h3 class="text-center">Recommended</h3>
-                <hr/>
-                <div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/22'">
-                    <img class="homeImage" src="https://img.discogs.com/1ziYXqFjAa0ObgSsmUczeyyTD7s=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-10114855-1491862906-1409.jpeg.jpg" alt=""/>
-
-                    <h3>
-                        <strong>Brutal 6.0</strong>
-                    </h3>
-                    <p class="lead">Radical Redemption</p>
-                </div>
+            <div id="recommended" class="col-lg-3 columnBg">
+             
             </div>
             <div class="col-lg-6 columnBg"></div>
-            <div class="col-lg-3 columnBg">
-                <h3 class="text-center">Deal</h3>
-                <hr />
-                <div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/15'">
-                    <img class="homeImage" src="https://img.discogs.com/csgR9VLQr2GJYzGi2UrAHDSYlFE=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-11109711-1510012509-9390.jpeg.jpg" alt="" />
-                    <h3>
-                        <strong>The Aftershock</strong>
-                    </h3>
-                    <p class="lead">Phuture Noize</p>
-                </div>
+            <div id="deal" class="col-lg-3 columnBg">
+
             </div>
         </div>
         <hr />

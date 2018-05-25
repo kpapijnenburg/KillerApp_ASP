@@ -2,7 +2,7 @@
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Adminpage";
     Layout = "~/Views/Shared/_Layout.cshtml";
     <link href="/Content/PagedList.css" rel="stylesheet" type="text/css"/>
 }
@@ -20,6 +20,7 @@
             <th>Artist name</th>
             <th>Label</th>
             <th>Price</th>
+            <th>Deal</th>
             <th>Edit</th>
             <th>Remove</th>
         </tr>
@@ -32,8 +33,9 @@
                     <td>@track.ArtistName</td>
                     <td>@track.Label</td>
                     <td>@track.Price,-</td>
-                    <td>@Html.ActionLink("Update", "EditForm", "Track", new {id = track.Id}, null)</td>
-                    <td>@Html.ActionLink("Remove", "Remove", "Track", new {id = track.Id}, null)</td>
+                    <td>@(track.Deal ? "Yes" : "No")</td>
+                    <td>@Html.ActionLink("Edit", "EditForm", "Track", new {id = track.Id}, null)</td>
+                    <td>@Html.ActionLink("X", "Remove", "Track", new {id = track.Id}, new {@class = "text-danger"})</td>
                 </tr>
             }
         </tbody>
