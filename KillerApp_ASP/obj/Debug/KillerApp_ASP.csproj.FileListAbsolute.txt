@@ -171,5 +171,3 @@ C:\Users\koenp\Google Drive\School\Semester 2\S2 Individueel\Projects\KillerApp_
 C:\Users\koenp\Google Drive\School\Semester 2\S2 Individueel\Projects\KillerApp_ASP\KillerApp_ASP\obj\Debug\KillerApp_ASP.csproj.CoreCompileInputs.cache
 C:\Users\koenp\Google Drive\School\Semester 2\S2 Individueel\Projects\KillerApp_ASP\KillerApp_ASP\obj\Debug\KillerApp_ASP.dll
 C:\Users\koenp\Google Drive\School\Semester 2\S2 Individueel\Projects\KillerApp_ASP\KillerApp_ASP\obj\Debug\KillerApp_ASP.pdb
-C:\Users\koenp\Google Drive\School\Semester 2\S2 Individueel\Projects\KillerApp_ASP\KillerApp_ASP\bin\KillerApp_ASP.dll.CodeAnalysisLog.xml
-C:\Users\koenp\Google Drive\School\Semester 2\S2 Individueel\Projects\KillerApp_ASP\KillerApp_ASP\bin\KillerApp_ASP.dll.lastcodeanalysissucceeded

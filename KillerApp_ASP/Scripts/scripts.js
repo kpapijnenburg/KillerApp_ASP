@@ -105,11 +105,12 @@ function GetDeals() {
     });
 
     request.done(function (result) {
+        console.log(result);
         $("#deal").append('<h3 class="text-center">Deal</h3>')
             .append("<hr />")
             .append(
             `<div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/${result.Id}'">
-                    <img class="homeImage" src="${result.CoverUrl}" alt="" />
+                    <img class="homeImage" src="data:image;base64,${result.Cover}" alt="" />
                     <h3>
                         <strong>${result.TrackName}</strong>
                     </h3>
@@ -134,7 +135,7 @@ function GetRecommended() {
             .append("<hr />")
             .append(
                 `<div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/${result.Id}'">
-                    <img class="homeImage" src="${result.CoverUrl}" alt="" />
+                    <img class="homeImage" src="data:image;base64,${result.Cover}" alt="" />
                     <h3>
                         <strong>${result.TrackName}</strong>
                     </h3>
@@ -150,6 +151,19 @@ function GetRecommended() {
 
 function NavigateToDetails(id) {
     location.href = "/track/details/" + id;
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $("#picture")
+                .attr("src", e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
 function Refresh() {

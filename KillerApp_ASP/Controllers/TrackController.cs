@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.WebSockets;
@@ -17,7 +18,6 @@ namespace KillerApp_ASP.Controllers
         private readonly VoteRepository voteRepository;
         private readonly UserRepository userRepository;
         private readonly CommentRepository commentRepository;
-        private readonly ScoreRepository scoreRepository = new ScoreRepository();
 
         public TrackController()
         {
@@ -30,29 +30,27 @@ namespace KillerApp_ASP.Controllers
         [HttpGet]
         public ActionResult Details(int id, int? page)
         {
-            if (!ModelState.IsValid)
-            {
-                HttpNotFound();
-            }
+            RedirectToRouteResult result;
 
             var cookie = Request.Cookies["userId"];
 
             if (cookie == null)
             {
-                RedirectToAction("LoginForm", "User");
+                result = RedirectToAction("LoginForm", "User");
             }
+            else
+            {
+                var user = userRepository.GetById(Convert.ToInt32(cookie.Values["userId"]));
+                var track = repository.GetById(id);
+                var comments = commentRepository.GetByTrackId(id).ToList();
+                comments.Reverse();
 
-            var user = userRepository.GetById(Convert.ToInt32(cookie.Values["userId"]));
-            var track = repository.GetById(id);
-            var comments = commentRepository.GetByTrackId(id).ToList();
-            comments.Reverse();
+                int pageNumber = page ?? 1;
+                var onePageOfComments = comments.ToPagedList(pageNumber, 3);
 
-            int pageNumber = page ?? 1;
-            var onePageOfComments = comments.ToPagedList(pageNumber, 3);
+                ViewBag.Items = onePageOfComments;
 
-            ViewBag.Items = onePageOfComments;
-
-            var model = new TrackDetailsViewModel
+                var model = new TrackDetailsViewModel
                 (
                     new TrackViewModel
                     (
@@ -61,7 +59,7 @@ namespace KillerApp_ASP.Controllers
                         track.TrackName,
                         track.Label,
                         track.Price,
-                        track.CoverUrl,
+                        track.Cover,
                         track.Deal
                     ),
                     voteRepository.GetVote(track, user),
@@ -69,7 +67,10 @@ namespace KillerApp_ASP.Controllers
                     voteRepository.HasVoted(track, user)
                 );
 
-            return View(model);
+                return View(model);
+            }
+
+            return result;
         }
 
         [HttpGet]
@@ -84,7 +85,7 @@ namespace KillerApp_ASP.Controllers
                 track.TrackName,
                 track.Label,
                 track.Price,
-                track.CoverUrl,
+                track.Cover,
                 track.Deal
                 );
 
@@ -108,8 +109,8 @@ namespace KillerApp_ASP.Controllers
                     model.TrackName,
                     model.Label,
                     model.Price,
-                    model.CoverUrl,
-                    model.Deal
+                    model.Deal,
+                    model.Cover
                 );
 
             track.Price = track.Deal ? 0.59m : 0.99m;
@@ -142,8 +143,8 @@ namespace KillerApp_ASP.Controllers
                     model.TrackName,
                     model.Label,
                     model.Price,
-                    model.CoverUrl,
-                    model.Deal
+                    model.Deal,
+                    model.Cover
                 );
 
             repository.Create(track);

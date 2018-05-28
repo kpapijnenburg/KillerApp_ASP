@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using KillerApp_ASP.Models;
 
 namespace KillerApp_ASP.ViewModels
 {
@@ -32,34 +33,59 @@ namespace KillerApp_ASP.ViewModels
         [MaxLength(255)]
         [Display(Name = "Cover")]
         [Url]
-        public string CoverUrl { get; set; }
+        public string Cover { get; set; }
 
         public bool Deal { get; set; }
 
-        public TrackViewModel(string artistName, string trackName, string label, decimal price, string coverUrl, bool deal)
+        public byte[] Photo { get; set; }
+
+        public TrackViewModel(string artistName, string trackName, string label, decimal price, string cover, bool deal)
         {
             ArtistName = artistName;
             TrackName = trackName;
             Label = label;
             Price = price;
-            CoverUrl = coverUrl;
+            Cover = cover;
             Deal = deal;
         }
 
-        public TrackViewModel(int id, string artistName, string trackName, string label, decimal price, string coverUrl, bool deal)
+        public TrackViewModel(int id, string artistName, string trackName, string label, decimal price, string cover, bool deal)
         {
             Id = id;
             ArtistName = artistName;
             TrackName = trackName;
             Label = label;
             Price = price;
-            CoverUrl = coverUrl;
+            Cover = cover;
             Deal = deal;
         }
 
         public TrackViewModel()
         {
 
+        }
+
+        public TrackViewModel(string artistName, string trackName, string label, decimal price, string cover, bool deal, byte[] photo)
+        {
+            ArtistName = artistName;
+            TrackName = trackName;
+            Label = label;
+            Price = price;
+            Cover = cover;
+            Deal = deal;
+            Photo = photo;
+        }
+
+        public TrackViewModel(int id, string artistName, string trackName, string label, decimal price, string cover, bool deal, byte[] photo)
+        {
+            Id = id;
+            ArtistName = artistName;
+            TrackName = trackName;
+            Label = label;
+            Price = price;
+            Cover = cover;
+            Deal = deal;
+            Photo = photo;
         }
     }
 }

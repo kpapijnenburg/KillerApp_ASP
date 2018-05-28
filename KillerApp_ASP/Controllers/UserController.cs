@@ -20,6 +20,11 @@ namespace KillerApp_ASP.Controllers
 
         public ActionResult LoginForm()
         {
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+            }
+
             return View(new UserViewModel());
         }
 
@@ -47,17 +52,18 @@ namespace KillerApp_ASP.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                ViewBag.Message = "Registration has failed" + e;
                 result = RedirectToAction("RegisterForm", "User");
             }
 
-            result = RedirectToAction("index", "Home");
             return result;
         }
 
         [HttpPost]
         public ActionResult Login(UserViewModel model)
         {
+            RedirectToRouteResult result;
+
             try
             {
                 var user = userRepository.Login(model.Email, model.Password);
@@ -66,20 +72,23 @@ namespace KillerApp_ASP.Controllers
                 cookie.Values.Add("userId", user.Id.ToString());
                 cookie.Expires = DateTime.Now.AddHours(1);
                 Response.Cookies.Add(cookie);
+
+                result = RedirectToAction("index", "Home");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                RedirectToAction("LoginForm", "User");
+                TempData["Message"] = "Email or password is invalid.";
+                result = RedirectToAction("LoginForm", "User");
             }
 
-            return RedirectToAction("index", "Home");
+            return result;
+
         }
 
         public ActionResult Logout()
         {
             var cookie = Request.Cookies["userId"];
-            if (cookie == null) return RedirectToAction("index", "Home");
+            if (cookie == null) RedirectToAction("index", "Home");
 
             cookie.Expires = DateTime.Now.AddDays(-1);
             Response.Cookies.Add(cookie);
@@ -91,7 +100,7 @@ namespace KillerApp_ASP.Controllers
         public ActionResult Details(int? page)
         {
             var cookie = Request.Cookies["userId"];
-            if (cookie == null) return RedirectToAction("index", "Home");
+            if (cookie == null) RedirectToAction("index", "Home");
             var user = userRepository.GetById(Convert.ToInt32(cookie.Values["userId"]));
 
             var purchases = trackRepository.GetPurchases(user).ToList();
@@ -115,18 +124,18 @@ namespace KillerApp_ASP.Controllers
             var cookie = Request.Cookies["userId"];
             if (cookie == null)
             {
-                return RedirectToAction("LoginForm", "User");
+                RedirectToAction("LoginForm", "User");
             }
             if (string.IsNullOrEmpty(cookie.Values["userId"]))
             {
-                return RedirectToAction("LoginForm", "User");
+                RedirectToAction("LoginForm", "User");
             }
 
             var user = userRepository.GetById(Convert.ToInt32(cookie.Values["userId"]));
 
             if (!user.IsAdmin)
             {
-                return RedirectToAction("LoginForm", "User");
+                RedirectToAction("LoginForm", "User");
             }
 
             var tracks = trackRepository.GetAll();

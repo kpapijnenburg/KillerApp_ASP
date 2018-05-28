@@ -1,9 +1,9 @@
-﻿@using System.Web.Razor.Generator
-@model KillerApp_ASP.ViewModels.TrackViewModel
+﻿@model KillerApp_ASP.ViewModels.TrackViewModel
 
 @{
     ViewBag.Title = "Add track";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    <script src="~/Scripts/scripts.js"></script>
 }
 
 <h2>Add track</h2>
@@ -30,11 +30,6 @@
         @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
     </div>   
-    <div class="form-group">
-        @Html.LabelFor(m => m.CoverUrl)
-        @Html.TextBoxFor(m => m.CoverUrl, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.CoverUrl, "", new { @class = "text-danger" })
-    </div>
 
     <button type="submit" class="btn btn-primary">Create</button>
 }
