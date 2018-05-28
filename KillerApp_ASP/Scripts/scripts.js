@@ -105,16 +105,15 @@ function GetDeals() {
     });
 
     request.done(function (result) {
-        console.log(result);
         $("#deal").append('<h3 class="text-center">Deal</h3>')
             .append("<hr />")
             .append(
-            `<div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/${result.Id}'">
-                    <img class="homeImage" src="data:image;base64,${result.Cover}" alt="" />
+            `<div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/${result.Track.Id}'">
+                    <img class="homeImage" <img src="data:image/png;base64,${result.Base64}" alt="" />
                     <h3>
-                        <strong>${result.TrackName}</strong>
+                        <strong>${result.Track.TrackName}</strong>
                     </h3>
-                    <p class="lead">${result.ArtistName}</p>
+                    <p class="lead">${result.Track.ArtistName}</p>
                 </div>`);
     });
 
@@ -134,12 +133,12 @@ function GetRecommended() {
         $("#recommended").append('<h3 class="text-center">Recommended</h3>')
             .append("<hr />")
             .append(
-                `<div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/${result.Id}'">
-                    <img class="homeImage" src="data:image;base64,${result.Cover}" alt="" />
+                `<div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/${result.Track.Id}'">
+                    <img class="homeImage" <img src="data:image/png;base64,${result.Base64}" alt="" />
                     <h3>
-                        <strong>${result.TrackName}</strong>
+                        <strong>${result.Track.TrackName}</strong>
                     </h3>
-                    <p class="lead">${result.ArtistName}</p>
+                    <p class="lead">${result.Track.ArtistName}</p>
                 </div>`);
     });
 
@@ -153,18 +152,7 @@ function NavigateToDetails(id) {
     location.href = "/track/details/" + id;
 }
 
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
 
-        reader.onload = function (e) {
-            $("#picture")
-                .attr("src", e.target.result);
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
 
 function Refresh() {
     $(document).ready(() => {
@@ -178,12 +166,3 @@ function Refresh() {
 }
 
 
-//<h3 class="text-center">Recommended</h3>
-//    <hr />
-//    <div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/22'">
-//    <img class="homeImage" src="https://img.discogs.com/1ziYXqFjAa0ObgSsmUczeyyTD7s=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-10114855-1491862906-1409.jpeg.jpg" alt="" />
-//    <h3>
-//    <strong>Brutal 6.0</strong>
-//    </h3>
-//    <p class="lead">Radical Redemption</p>
-//    </div>

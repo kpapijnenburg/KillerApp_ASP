@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.WebSockets;
 using KillerAppClassLibrary.Classes;
 using KillerAppClassLibrary.Context.Sql;
 using KillerAppClassLibrary.Logic.Repositories;
@@ -79,7 +77,7 @@ namespace KillerApp_ASP.Controllers
             var track = repository.GetById(id);
 
             var model = new TrackViewModel
-                (
+            (
                 track.Id,
                 track.ArtistName,
                 track.TrackName,
@@ -87,7 +85,7 @@ namespace KillerApp_ASP.Controllers
                 track.Price,
                 track.Cover,
                 track.Deal
-                );
+            );
 
             return View(model);
         }
@@ -103,15 +101,15 @@ namespace KillerApp_ASP.Controllers
         public ActionResult Edit(TrackViewModel model)
         {
             var track = new Track
-                (
-                    model.Id,
-                    model.ArtistName,
-                    model.TrackName,
-                    model.Label,
-                    model.Price,
-                    model.Deal,
-                    model.Cover
-                );
+            (
+                model.Id,
+                model.ArtistName,
+                model.TrackName,
+                model.Label,
+                model.Price,
+                model.Deal,
+                model.Cover
+            );
 
             track.Price = track.Deal ? 0.59m : 0.99m;
 
@@ -136,8 +134,9 @@ namespace KillerApp_ASP.Controllers
             {
                 result = RedirectToAction("New", "Track");
             }
-
-            var track = new Track
+            else
+            {
+                var track = new Track
                 (
                     model.ArtistName,
                     model.TrackName,
@@ -147,9 +146,10 @@ namespace KillerApp_ASP.Controllers
                     model.Cover
                 );
 
-            repository.Create(track);
+                repository.Create(track);
 
-            result = RedirectToAction("Adminpage", "User");
+                result = RedirectToAction("Adminpage", "User");
+            }
 
             return result;
         }
@@ -175,7 +175,15 @@ namespace KillerApp_ASP.Controllers
             var random = new Random();
             int r = random.Next(tracks.Count);
 
-            return Json(tracks[r], JsonRequestBehavior.AllowGet);
+            var track = tracks[r];
+
+            var model = new AsyncTrackViewModel
+                (
+                track,
+                Convert.ToBase64String(track.Cover)
+                );
+
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -189,9 +197,8 @@ namespace KillerApp_ASP.Controllers
             {
                 var random = new Random();
 
-                var tracks = repository.GetLatestReleases().ToList();
-
-                track = tracks[random.Next(tracks.Count)];
+                var tracks = repository.GetAll().Take(10).ToList();
+                track = tracks[random.Next(10)];
 
             }
             else
@@ -199,10 +206,19 @@ namespace KillerApp_ASP.Controllers
                 var user = userRepository.GetById(Convert.ToInt32(cookie.Values["userId"]));
 
                 track = repository.GetRecommended(user);
+
             }
 
+            var model = new AsyncTrackViewModel
+                (
+                track, 
+                Convert.ToBase64String(track.Cover
+                ));
 
-            return Json(track, JsonRequestBehavior.AllowGet);
+
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
+
     }
+
 }

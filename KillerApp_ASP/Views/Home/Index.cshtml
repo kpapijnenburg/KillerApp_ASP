@@ -1,5 +1,4 @@
-﻿@using KillerAppClassLibrary.Classes
-@using PagedList.Mvc;
+﻿@using PagedList.Mvc;
 @using PagedList;
 
 @{
@@ -29,10 +28,10 @@
     }
     <hr />
     <div class="row">
-        @foreach (Track track in ViewBag.Items)
+        @foreach (var track in ViewBag.Items)
         {
             <div class="col-md-4 text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/@track.Id'">
-                <img class="indexImage" src="data:image;base64,@track.Cover" alt="" />
+                <img class="indexImage" src="data:image;base64,@Convert.ToBase64String(track.Cover)" alt="" />
                 <p>
                     <strong>@track.TrackName</strong>
                 </p>

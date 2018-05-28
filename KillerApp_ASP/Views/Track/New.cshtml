@@ -8,7 +8,7 @@
 
 <h2>Add track</h2>
 
-@using (Html.BeginForm("Create", "Track"))
+@using (Html.BeginForm("Create", "Track",FormMethod.Post, new {enctype = "multipart/form-data"}))
 {
     <div class="form-group">
         @Html.LabelFor(m => m.ArtistName)
@@ -29,7 +29,13 @@
         @Html.LabelFor(m => m.Price)
         @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
-    </div>   
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Cover)
+        <input type="file" name="pic"/>
+        @Html.ValidationMessageFor(m => m.Cover, "", new { @class = "text-danger" })
+    </div>
 
     <button type="submit" class="btn btn-primary">Create</button>
 }

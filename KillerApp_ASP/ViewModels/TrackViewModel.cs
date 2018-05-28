@@ -30,16 +30,14 @@ namespace KillerApp_ASP.ViewModels
         public decimal Price { get; set; }
 
         [Required]
-        [MaxLength(255)]
         [Display(Name = "Cover")]
-        [Url]
-        public string Cover { get; set; }
+        public byte[] Cover { get; set; }
 
         public bool Deal { get; set; }
 
-        public byte[] Photo { get; set; }
+        
 
-        public TrackViewModel(string artistName, string trackName, string label, decimal price, string cover, bool deal)
+        public TrackViewModel(string artistName, string trackName, string label, decimal price, byte[] cover, bool deal)
         {
             ArtistName = artistName;
             TrackName = trackName;
@@ -49,7 +47,7 @@ namespace KillerApp_ASP.ViewModels
             Deal = deal;
         }
 
-        public TrackViewModel(int id, string artistName, string trackName, string label, decimal price, string cover, bool deal)
+        public TrackViewModel(int id, string artistName, string trackName, string label, decimal price, byte[] cover, bool deal)
         {
             Id = id;
             ArtistName = artistName;
@@ -63,29 +61,6 @@ namespace KillerApp_ASP.ViewModels
         public TrackViewModel()
         {
 
-        }
-
-        public TrackViewModel(string artistName, string trackName, string label, decimal price, string cover, bool deal, byte[] photo)
-        {
-            ArtistName = artistName;
-            TrackName = trackName;
-            Label = label;
-            Price = price;
-            Cover = cover;
-            Deal = deal;
-            Photo = photo;
-        }
-
-        public TrackViewModel(int id, string artistName, string trackName, string label, decimal price, string cover, bool deal, byte[] photo)
-        {
-            Id = id;
-            ArtistName = artistName;
-            TrackName = trackName;
-            Label = label;
-            Price = price;
-            Cover = cover;
-            Deal = deal;
-            Photo = photo;
         }
     }
 }
