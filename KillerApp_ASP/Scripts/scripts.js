@@ -89,7 +89,8 @@ function GetLatestReleases() {
                             <a href='/shoppingcart/add/${result[i].Id}'><img class="rounded float-right shopping-cart-image" src="https://image.flaticon.com/icons/svg/70/70021.svg" alt="Alternate Text" /></a>
                             <hr>
                     </div>
-            `);        }
+            `);
+        }
     });
 
     request.fail(function (jqHxr, textStatus) {
@@ -133,7 +134,7 @@ function GetRecommended() {
         $("#recommended").append('<h3 class="text-center">Recommended</h3>')
             .append("<hr />")
             .append(
-                `<div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/${result.Track.Id}'">
+            `<div class="text-truncate text-center" style="cursor: pointer" onclick="location.href = '/track/details/${result.Track.Id}'">
                     <img class="homeImage" <img src="data:image/png;base64,${result.Base64}" alt="" />
                     <h3>
                         <strong>${result.Track.TrackName}</strong>
@@ -151,7 +152,6 @@ function GetRecommended() {
 function NavigateToDetails(id) {
     location.href = "/track/details/" + id;
 }
-
 
 
 function Refresh() {

@@ -3,10 +3,9 @@
 @{
     ViewBag.Title = "Add track";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    <script src="~/Scripts/scripts.js"></script>
+
 }
 
-<h2>Add track</h2>
 
 @using (Html.BeginForm("Create", "Track",FormMethod.Post, new {enctype = "multipart/form-data"}))
 {
@@ -32,13 +31,34 @@
     </div>
     
     <div class="form-group">
-        @Html.LabelFor(m => m.Cover)
-        <input type="file" name="pic"/>
-        @Html.ValidationMessageFor(m => m.Cover, "", new { @class = "text-danger" })
+        <label for="imgInput">Upload cover</label>
+        <br/>
+        <img src="" id="cover" height="200" alt="No cover uploaded yet."/>
+        <input type="file" accept="image/*" name="uploadedFile" class="form-control-file" id="imgInput" aria-describedby="fileHelp" onchange="previewFile()">
+        @Html.ValidationMessageFor(m => m.Cover, "", new {@class = "text-danger"})
+
     </div>
 
     <button type="submit" class="btn btn-primary">Create</button>
 }
+
+<script>
+    function previewFile() {
+        var preview = document.querySelector("#cover");
+        var file = document.querySelector("input[type=file]").files[0];
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+
+        previewFile();
+    }
+</script>
 
 @section scripts
 {

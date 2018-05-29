@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using KillerAppClassLibrary.Classes;
 using KillerAppClassLibrary.Context.Sql;
 using KillerAppClassLibrary.Logic.Repositories;
@@ -97,9 +100,13 @@ namespace KillerApp_ASP.Controllers
             return RedirectToAction("Adminpage", "User");
         }
 
-        [HttpPost]
         public ActionResult Edit(TrackViewModel model)
         {
+            var file = Request.Files[0];
+
+            var reader = new BinaryReader(file.InputStream);
+            var data = reader.ReadBytes(file.ContentLength);
+
             var track = new Track
             (
                 model.Id,
@@ -108,7 +115,7 @@ namespace KillerApp_ASP.Controllers
                 model.Label,
                 model.Price,
                 model.Deal,
-                model.Cover
+                data
             );
 
             track.Price = track.Deal ? 0.59m : 0.99m;
@@ -126,30 +133,28 @@ namespace KillerApp_ASP.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(TrackViewModel model)
+        public ActionResult Create(TrackViewModel model, FormCollection collection)
         {
-            RedirectToRouteResult result;
+            var file = Request.Files[0];
 
-            if (!ModelState.IsValid)
-            {
-                result = RedirectToAction("New", "Track");
-            }
-            else
-            {
-                var track = new Track
-                (
-                    model.ArtistName,
-                    model.TrackName,
-                    model.Label,
-                    model.Price,
-                    model.Deal,
-                    model.Cover
-                );
+            var reader = new BinaryReader(file.InputStream);
+            var data = reader.ReadBytes(file.ContentLength);
+            
 
-                repository.Create(track);
+            var track = new Track
+            (
+                model.ArtistName,
+                model.TrackName,
+                model.Label,
+                model.Price,
+                model.Deal,
+                data
+            );
 
-                result = RedirectToAction("Adminpage", "User");
-            }
+            repository.Create(track);
+
+            var result = RedirectToAction("Adminpage", "User");
+
 
             return result;
         }
@@ -211,7 +216,7 @@ namespace KillerApp_ASP.Controllers
 
             var model = new AsyncTrackViewModel
                 (
-                track, 
+                track,
                 Convert.ToBase64String(track.Cover
                 ));
 
