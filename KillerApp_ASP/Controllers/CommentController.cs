@@ -9,21 +9,23 @@ namespace KillerApp_ASP.Controllers
 {
     public class CommentController : Controller
     {
-        private readonly UserRepository userRepository = new UserRepository(new UserSqlContext());
+        private readonly UserRepository userRepository = new UserRepository(new UserContextSqlContext());
         private readonly CommentRepository commentRepository = new CommentRepository(new CommentSqlContext());
+        private readonly TrackRepository trackRepository = new TrackRepository(new TrackSqlContext());
 
         [HttpPost]
         public ActionResult Create(int trackid, int userid, string content)
         {
             var comment = new Comment
             (
-                trackid,
                 userRepository.GetById(userid),
                 DateTime.Now,
                 content
             );
 
-            commentRepository.Create(comment);
+            var track = trackRepository.GetById(trackid);
+            
+            commentRepository.Create(comment, track);
 
             return RedirectToAction("Details", "Track", new {id = trackid});
 

@@ -1,0 +1,63 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model KillerApp_ASP.ViewModels.ShoppingCartViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+}
+@if (Model.TotalPrice > 0)
+{
+    foreach (var track in ViewBag.Items)
+    {
+        <div class="row">
+            <div class="col-lg-4">
+                <br />
+                <img class="detailsImage"  src="data:image;base64,@Convert.ToBase64String(track.Cover)" alt="" />
+            </div>
+            <div class="col-lg-8">
+                <br />
+                <p>
+                    <strong>@track.TrackName</strong>
+                </p>
+                <p class="lead">@track.ArtistName</p>
+                <p>@track.Label</p>
+                <p>Price: @track.Price,- </p>
+                @Html.ActionLink("X", "Remove", "ShoppingCart", new { id = track.Id }, new { @class = "text-danger" })
+                <br />
+                <hr />
+            </div>
+        </div>
+    }
+    @Html.PagedListPager((IPagedList)ViewBag.Items, page => Url.Action("CheckoutView", new { page }))
+
+    @Html.HiddenFor(m => m.User.Id)
+
+    <small class="lead">Total price: €@Model.TotalPrice,- </small>
+    <br />
+    <br />
+    if (Model.User.Fund > Model.TotalPrice)
+    {
+        @Html.ActionLink("Continue", "Checkout", "ShoppingCart", new { id = Model.User.Id }, new { @class = "btn btn-primary" })
+    }
+    else
+    {
+        <p class="text-danger">
+            <strong>Insufficient funds available please click <a href="/user/details/" @Model.User.Id>here</a> to go to your accountpage.</strong>
+        </p>
+    }
+}
+else
+{
+    <p class="lead">Your shoppingcart is empty.</p>
+    <p>Click <a href="@Url.Action("Index","Home")">here</a> to return to the store.</p>
+}
+
+
+
+
+
+
+

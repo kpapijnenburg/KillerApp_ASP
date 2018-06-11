@@ -1,0 +1,43 @@
+﻿@model KillerApp_ASP.ViewModels.UserViewModel
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container">
+        <div>
+            <a class="navbar-brand" href="../Home/Index">Webshop</a>
+
+            @if (Model != null)
+            {
+                if (Model.IsAdmin)
+                {
+                    <p class="list-inline-item">Adminpage</p>
+                }
+            }
+        </div>
+        <div>
+            @if (Model != null)
+            {
+                @(Model == null ? Html.ActionLink("Login", "LoginForm", "User", new {@class = "list-inline-item"}, null) :
+                      Html.ActionLink("Logout", "Logout", "User", new {@class = "list-inline-item"}, null))
+            }
+            else
+            {
+                @Html.ActionLink("Login", "LoginForm", "User", new { @class = "list-inline-item" }, null)
+
+            }
+
+            <a class="list-inline-item">|</a>
+
+            @if (Model != null)
+            {
+                @(Model == null ? Html.ActionLink("Registreer", "RegisterForm", "User", new {@class = "list-inline-item"}, null) :
+                      Html.ActionLink(Model.Username, "Details", "User", new {id = Model.Id}, new {@class = "list-inline-item"}))
+            }
+            else
+            {
+                @Html.ActionLink("Registreer", "RegisterForm", "User", new { @class = "list-inline-item" }, null)
+            }
+
+            <button type="button" class="btn btn-primary">Checkout</button>
+        </div>
+    </div>
+</nav>

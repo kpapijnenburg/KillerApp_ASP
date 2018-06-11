@@ -1,0 +1,74 @@
+﻿@model KillerApp_ASP.ViewModels.TrackViewModel
+
+@{
+    ViewBag.Title = "Edit track";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "Track", FormMethod.Post, new {@enctype = "multipart/form-data"} ))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.ArtistName)
+        @Html.TextBoxFor(m => m.ArtistName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ArtistName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.TrackName)
+        @Html.TextBoxFor(m => m.TrackName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TrackName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Label)
+        @Html.TextBoxFor(m => m.Label, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Label, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Price)
+        @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label for="imgInput">Upload cover</label>
+        <br />
+        <img src="data:image/png;base64, @Convert.ToBase64String(Model.Cover)" id="cover" height="200" alt="No cover uploaded yet." /> <br/>
+        <input type="file" accept="image/*" name="uploadedFile" class="form-control-file" id="imgInput" aria-describedby="fileHelp" onchange="previewFile()">
+        @Html.ValidationMessageFor(m => m.Cover, "", new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-check disabled">
+        <label class="form-check-label">
+            @Html.CheckBoxFor(m => m.Deal, new { @class = "form-check-input", @style = "height: 15px; width: 15px;" })
+            Deal
+        </label>
+    </div>
+
+    <br/>
+    @Html.HiddenFor(m => m.Id)
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+    <script>
+        function previewFile() {
+            var preview = document.querySelector("#cover");
+            var file = document.querySelector("input[type=file]").files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+
+            previewFile();
+        }
+    </script>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

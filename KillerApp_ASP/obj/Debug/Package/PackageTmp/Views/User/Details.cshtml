@@ -1,0 +1,72 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model KillerApp_ASP.ViewModels.AccountPageViewModel
+
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+}
+
+<h2>Account page</h2>
+<hr/>
+<h3>Add fund</h3>
+<small class="lead">Current fund €@Model.Fund,-</small>
+<div class="row">
+    <div class="card col-md-3">
+        <div class="card-header">€5,-</div>
+       @Html.ActionLink("Add","AddFund","User", new {id = Model.Id, value = 5}, new {@class = "card-body btn btn-primary"})
+    </div>  
+    <div class="card col-md-3">
+        <div class="card-header">€10,-</div>
+        @Html.ActionLink("Add","AddFund","User", new {id = Model.Id, value = 10}, new {@class = "card-body btn btn-primary"})
+    </div>  
+    <div class="card col-md-3">
+        <div class="card-header">€20,-</div>
+        @Html.ActionLink("Add","AddFund","User", new {id = Model.Id, value = 20}, new {@class = "card-body btn btn-primary"})
+    </div>  
+    <div class="card col-md-3">
+        <div class="card-header">€50,-</div>
+        @Html.ActionLink("Add","AddFund","User", new {id = Model.Id, value = 50}, new {@class = "card-body btn btn-primary"})
+    </div>
+</div>
+<hr/>
+<h3>Purchase history</h3>
+@if (ViewBag.Items != null)
+{
+    <div class="container">
+        <table id="AccountPageTracks" class="table table-hover">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Track name</th>
+                <th>Artist name</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var orderTrack in ViewBag.Items)
+            {
+                <tr>
+                    <td>@orderTrack.PurchaseDate.ToShortDateString()</td>
+                    <td>@orderTrack.Track.TrackName</td>
+                    <td>@orderTrack.Track.ArtistName</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        @Html.PagedListPager((IPagedList)ViewBag.Items, page => Url.Action("Details", new { page }))
+
+    </div>
+}
+else
+{
+    <p>You have made no purchases yet.</p>
+}
+
+<script>
+    $(document).ready(function() {
+        $("#AccountPageTracks").DataTable();
+    });
+</script>
+
+

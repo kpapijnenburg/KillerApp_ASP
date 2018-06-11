@@ -24,7 +24,7 @@ namespace KillerApp_ASP.Controllers
         {
             voteRepository = new VoteRepository(new VoteSqlContext());
             repository = new TrackRepository(new TrackSqlContext());
-            userRepository = new UserRepository(new UserSqlContext());
+            userRepository = new UserRepository(new UserContextSqlContext());
             commentRepository = new CommentRepository(new CommentSqlContext());
         }
 
@@ -63,7 +63,7 @@ namespace KillerApp_ASP.Controllers
                         track.Cover,
                         track.Deal
                     ),
-                    voteRepository.GetVote(track, user),
+                    voteRepository.GetVote(track),
                     user,
                     voteRepository.HasVoted(track, user)
                 );
@@ -133,7 +133,7 @@ namespace KillerApp_ASP.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(TrackViewModel model, FormCollection collection)
+        public ActionResult Create(TrackViewModel model)
         {
             var file = Request.Files[0];
 

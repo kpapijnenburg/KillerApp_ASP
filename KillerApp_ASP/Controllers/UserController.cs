@@ -15,7 +15,7 @@ namespace KillerApp_ASP.Controllers
     public class UserController : Controller
     {
 
-        private readonly UserRepository userRepository = new UserRepository(new UserSqlContext());
+        private readonly UserRepository userRepository = new UserRepository(new UserContextSqlContext());
         private readonly TrackRepository trackRepository = new TrackRepository(new TrackSqlContext());
 
         public ActionResult LoginForm()

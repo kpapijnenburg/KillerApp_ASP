@@ -15,7 +15,7 @@ namespace KillerApp_ASP.Controllers
         {
             voteRepository = new VoteRepository(new VoteSqlContext());
             trackRepository = new TrackRepository(new TrackSqlContext());
-            userRepository = new UserRepository(new UserSqlContext());
+            userRepository = new UserRepository(new UserContextSqlContext());
         }
 
         

@@ -1,0 +1,66 @@
+﻿@model KillerApp_ASP.ViewModels.TrackViewModel
+
+@{
+    ViewBag.Title = "Add track";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+@using (Html.BeginForm("Create", "Track",FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.ArtistName)
+        @Html.TextBoxFor(m => m.ArtistName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ArtistName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.TrackName)
+        @Html.TextBoxFor(m => m.TrackName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TrackName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Label)
+        @Html.TextBoxFor(m => m.Label, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Label, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Price)
+        @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+    </div>
+    
+    <div class="form-group">
+        <label for="imgInput">Upload cover</label>
+        <br/>
+        <img src="" id="cover" height="200" alt="No cover uploaded yet."/>
+        <input type="file" accept="image/*" name="uploadedFile" class="form-control-file" id="imgInput" aria-describedby="fileHelp" onchange="previewFile()">
+        @Html.ValidationMessageFor(m => m.Cover, "", new {@class = "text-danger"})
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+}
+
+<script>
+    function previewFile() {
+        var preview = document.querySelector("#cover");
+        var file = document.querySelector("input[type=file]").files[0];
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+
+        previewFile();
+    }
+</script>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -13,7 +13,7 @@ namespace KillerApp_ASP.Controllers
     public class ShoppingCartController : Controller
     {
         private readonly ShoppingCartRepository shoppingCartRepository = new ShoppingCartRepository(new ShoppingCartSqlContext());
-        private readonly UserRepository userRepository = new UserRepository(new UserSqlContext());
+        private readonly UserRepository userRepository = new UserRepository(new UserContextSqlContext());
         private readonly TrackRepository trackRepository = new TrackRepository(new TrackSqlContext());
         private readonly OrderRepository orderRepository = new OrderRepository(new OrderSqlContext());
         
@@ -32,7 +32,7 @@ namespace KillerApp_ASP.Controllers
             return RedirectToAction("OrderFinished", model);
         }
 
-        public ActionResult OrderFinished(UserViewModel model)
+        public ActionResult OrderFinished()
         {
             return View();
         }
